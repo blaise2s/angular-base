@@ -2,11 +2,21 @@
   "name": "angular-base",
   "version": "0.0.0",
   "scripts": {
+    "all-checks": "yarn lint && yarn test:headless && yarn e2e:headless",
+    "build": "ng build && yarn build-app-server",
+    "build-app-server": "tsc app-server.ts --outDir dist/",
+    "dev": "ng serve",
+    "e2e": "ng e2e",
+    "e2e:headless": "yarn e2e --protractor-config='projects/project-base/e2e/ci.protractor.conf.js'",
+    "lint": "ng lint",
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint"
+    "start": "node dist/app-server.js",
+    "test": "ng test --watch=false --browsers=Chrome",
+    "test:headless": "ng test --watch=false --browsers=ChromeHeadless",
+    "test:watch": "ng test --watch=true --browsers=Chrome",
+    "test:watch:chrome": "yarn test:watch",
+    "test:watch:headless": "ng test --watch=false --browsers=Chrome",
+    "test:watch:headless:chrome": "yarn test:watch:headless"
   },
   "private": true,
   "dependencies": {
@@ -18,16 +28,30 @@
     "@angular/platform-browser": "~11.2.11",
     "@angular/platform-browser-dynamic": "~11.2.11",
     "@angular/router": "~11.2.11",
+    "express": "^4.17.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.3"
   },
   "devDependencies": {
+    "@angular-devkit/build-angular": "~0.1102.10",
+    "@angular-eslint/builder": "4.0.0",
+    "@angular-eslint/eslint-plugin": "4.0.0",
+    "@angular-eslint/eslint-plugin-template": "4.0.0",
+    "@angular-eslint/schematics": "4.0.0",
+    "@angular-eslint/template-parser": "4.0.0",
     "@angular/cli": "~11.2.10",
     "@angular/compiler-cli": "~11.2.11",
+    "@commitlint/cli": "^12.1.1",
+    "@commitlint/config-conventional": "^12.1.1",
+    "@types/express": "^4.17.11",
     "@types/jasmine": "~3.6.0",
     "@types/node": "^12.11.1",
-    "codelyzer": "^6.0.0",
+    "@typescript-eslint/eslint-plugin": "4.16.1",
+    "@typescript-eslint/parser": "4.16.1",
+    "commitizen": "^4.2.3",
+    "eslint": "^7.6.0",
+    "husky": "^6.0.0",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "~6.1.0",
@@ -35,9 +59,26 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
+    "lint-staged": "^10.5.4",
+    "ng-packagr": "^11.0.0",
+    "prettier": "^2.2.1",
     "protractor": "~7.0.0",
+    "stylelint": "^13.12.0",
+    "stylelint-config-prettier": "^8.0.2",
+    "stylelint-prettier": "^1.2.0",
     "ts-node": "~8.3.0",
-    "tslint": "~6.1.0",
     "typescript": "~4.1.5"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog",
+      "maxHeaderWidth": 72,
+      "maxLineWidth": 80
+    }
+  },
+  "lint-staged": {
+    "*.{ts}": "eslint --cache --fix",
+    "*.{scss}": "stylelint --fix",
+    "*.{ts,html,scss,json,md}": "prettier --write"
   }
 }

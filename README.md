@@ -1,5 +1,14 @@
 # AngularBase
 
+Search for (case insensitive) and replace with desired names:
+
+- angular-base
+- angularbase
+- project-base
+- project base
+- lib-base
+- libbase
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.10.
 
 ## Development server
